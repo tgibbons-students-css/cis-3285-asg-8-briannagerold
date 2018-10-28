@@ -75,6 +75,18 @@ namespace SingleResponsibilityPrinciple
                 return false;
             }
 
+            if(tradeAmount <= 0)
+            {
+                LogMessage("WARN: Trade price on line {0} not a valid amount: '{1}'", currentLine, fields[2]);
+                return false;
+            }
+
+            if (tradePrice <= 0)
+            {
+                LogMessage("WARN: Trade price on line {0} not a valid price: '{1}'", currentLine, fields[2]);
+                return false;
+            }
+
             return true;
         }
 
@@ -112,7 +124,7 @@ namespace SingleResponsibilityPrinciple
             //    The @ sign allows for back slashes
             //    Watch for double quotes which must be escaped using "" 
             //    Watch for extra spaces after C: and avoid paths with - hyphens -
-            using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\bgerold\source\repos\CIS3285Unit8TradesStart\tradedatabase.mdf;Integrated Security=True;Connect Timeout=30  ;"))
+            using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Brianna\source\repos\cis-3285-asg-8-briannagerold\tradedatabase.mdf;Integrated Security=True;Connect Timeout=30;"))
             //using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=(local);Initial Catalog=radedatabase;Integrated Security=True;"))
             {
                 connection.Open();

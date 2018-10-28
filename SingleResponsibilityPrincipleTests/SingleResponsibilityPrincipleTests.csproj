@@ -74,6 +74,24 @@
   <ItemGroup>
     <EmbeddedResource Include="badTrades.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PositiveTradeAmount.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NegativeTradeAmount.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PositiveExchangeRate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NegativeExchangeRate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ZeroExchangeRate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ZeroTradeAmount.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
