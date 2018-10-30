@@ -122,6 +122,21 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
+        public void LargeTradeAmountTest()
+        {
+            //Arrange
+            var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.LargeTradeAmount.txt");
+            var tradeProcessor = new TradeProcessor();
+
+            //Act
+            int countBefore = CountDbRecords();
+            tradeProcessor.ProcessTrades(tradeStream);
+            //Assert
+            int countAfter = CountDbRecords();
+            Assert.AreEqual(countBefore, countAfter);
+        }
+
+        [TestMethod()]
         public void PositiveExchangeRateTest()
         {
             //Arrange
@@ -165,7 +180,6 @@ namespace SingleResponsibilityPrinciple.Tests
             int countAfter = CountDbRecords();
             Assert.AreEqual(countBefore, countAfter);
         }
-
 
 
         private int CountDbRecords()

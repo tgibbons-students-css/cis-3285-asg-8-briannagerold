@@ -75,7 +75,7 @@ namespace SingleResponsibilityPrinciple
                 return false;
             }
 
-            if(tradeAmount <= 0)
+            if(tradeAmount <= 0 || tradeAmount > 10000000)
             {
                 LogMessage("WARN: Trade price on line {0} not a valid amount: '{1}'", currentLine, fields[2]);
                 return false;
