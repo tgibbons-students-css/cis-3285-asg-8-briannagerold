@@ -16,7 +16,7 @@ namespace SingleResponsibilityPrinciple.Tests
     public class TradeProcessorTests
     {
         [TestMethod()]
-        public void TestGoodFile()
+        public void GoodFileTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.goodTrades.txt");
@@ -32,7 +32,7 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void TestBadFile()
+        public void BadFileTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.badTrades.txt");
@@ -47,7 +47,37 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void PositiveTradeAmount()
+        public void OneBadTradeTest()
+        {
+            //Arrange
+            var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.oneBadTrade.txt");
+            var tradeProcessor = new TradeProcessor();
+
+            //Act
+            int countBefore = CountDbRecords();
+            tradeProcessor.ProcessTrades(tradeStream);
+            //Assert
+            int countAfter = CountDbRecords();
+            Assert.AreEqual(countBefore + 3, countAfter);
+        }
+
+        [TestMethod()]
+        public void EmptyTradeFileTest()
+        {
+            //Arrange
+            var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.Empty.txt");
+            var tradeProcessor = new TradeProcessor();
+
+            //Act
+            int countBefore = CountDbRecords();
+            tradeProcessor.ProcessTrades(tradeStream);
+            //Assert
+            int countAfter = CountDbRecords();
+            Assert.AreEqual(countBefore, countAfter);
+        }
+        
+        [TestMethod()]
+        public void PositiveTradeAmountTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.PositiveTradeAmount.txt");
@@ -62,7 +92,7 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void NegitiveTradeAmount()
+        public void NegitiveTradeAmountTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.NegativeTradeAmount.txt");
@@ -77,7 +107,7 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void ZeroTradeAmount()
+        public void ZeroTradeAmountTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.ZeroTradeAmount.txt");
@@ -92,7 +122,7 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void PositiveExchangeRate()
+        public void PositiveExchangeRateTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.PositiveExchangeRate.txt");
@@ -107,7 +137,7 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void NegitiveExchangeRate()
+        public void NegitiveExchangeRateTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.NegativeExchangeRate.txt");
@@ -122,7 +152,7 @@ namespace SingleResponsibilityPrinciple.Tests
         }
 
         [TestMethod()]
-        public void ZeroExchangeRate()
+        public void ZeroExchangeRateTest()
         {
             //Arrange
             var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SingleResponsibilityPrincipleTests.ZeroExchangeRate.txt");
@@ -140,16 +170,15 @@ namespace SingleResponsibilityPrinciple.Tests
 
         private int CountDbRecords()
         {
-            using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Brianna\source\repos\cis-3285-asg-8-briannagerold\tradedatabase.mdf;Integrated Security=True;Connect Timeout=30;"))
+            using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\bgerold\source\repos\CIS3285Unit8TradesStart\tradedatabase.mdf;Integrated Security=True;Connect Timeout=30;"))
             {
 
-                if (connection.State != ConnectionState.Closed)
+                if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
                 }
                 string myScalarQuery = "SELECT COUNT(*) FROM trade";
                 SqlCommand myCommand = new SqlCommand(myScalarQuery, connection);
-                myCommand.Connection.Open();
                 int count = (int)myCommand.ExecuteScalar();
                 connection.Close();
                 return count;
